@@ -1,7 +1,7 @@
 package com.nabil.postsapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.nabil.postsapp.posts.view.MainFragment
 
 class MainActivity : AppCompatActivity() {
