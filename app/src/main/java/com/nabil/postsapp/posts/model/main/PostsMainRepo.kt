@@ -1,31 +1,38 @@
 package com.nabil.postsapp.posts.model.main
 
+import com.nabil.postsapp.annotations.Local
+import com.nabil.postsapp.annotations.Remote
 import com.nabil.postsapp.posts.model.Repository
 import com.nabil.postsapp.posts.model.pojo.Post
+import com.nabil.postsapp.posts.model.pojo.Response
 import io.reactivex.Observable
-import okhttp3.Response
+import javax.inject.Inject
 
-class PostsMainRepo : Repository<Observable<Response>> {
+class PostsMainRepo @Inject constructor(@Local val localRepo: Repository<Long>, @Remote val remoteRepo: Repository<Observable<Response>>) :
+    Repository<Observable<Response>> {
 
     var isNetworkConnected: Boolean = true
 
     override fun getPosts(): Observable<List<Post>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return if (isNetworkConnected)
+            remoteRepo.getPosts().doOnNext { posts: List<Post> -> addAllPosts(posts) }
+        else
+            localRepo.getPosts()
     }
 
     override fun addPost(post: Post): Observable<Response> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return remoteRepo.addPost(post).doOnComplete { localRepo.addPost(post) }
     }
 
     override fun editPost(post: Post): Observable<Response> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return remoteRepo.editPost(post).doOnComplete { localRepo.editPost(post) }
     }
 
     override fun deletePost(post: Post): Observable<Response> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return remoteRepo.deletePost(post).doOnComplete { localRepo.deletePost(post) }
     }
 
     override fun addAllPosts(postsList: List<Post>): List<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return localRepo.addAllPosts(postsList)
     }
 }

@@ -7,7 +7,7 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 class PostsRemoteRepo @Inject constructor(
-    private val postsNetwork: PostsNetwork
+    val postsNetwork: PostsNetwork
 ) :
     Repository<Observable<Response>> {
 
@@ -19,5 +19,5 @@ class PostsRemoteRepo @Inject constructor(
 
     override fun deletePost(post: Post) = postsNetwork.deletePost(post.id)
 
-    override fun addAllPosts(postsList: List<Post>): List<Long> = emptyList()
+    override fun addAllPosts(postsList: List<Post>) = emptyList<Long>()
 }
