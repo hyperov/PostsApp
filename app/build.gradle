@@ -39,6 +39,10 @@ ext {
     okhttp_version = "3.9.0"
     rxjava_version = "2.2.3"
     rxandroid_version = "2.1.0"
+    room_version = "2.2.3"
+    retrofit_version = "2.5.0"
+    retrofit_gson_version = "2.3.0"
+    retrofit_rxjava_adapter_version = "1.0.0"
 }
 
 dependencies {
@@ -59,12 +63,23 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_gson_version"
+    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$retrofit_rxjava_adapter_version"
+
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
 
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$junit_instrumentation_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+
+    annotationProcessor 'androidx.room:room-compiler:2.2.3'
 }
