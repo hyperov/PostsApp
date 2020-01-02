@@ -50,8 +50,15 @@ class PostsFragment : Fragment(), HasAndroidInjector {
 
         observeLoadingAndError()
         observeData()
+        initAddListener()
         getPosts()
 
+    }
+
+    private fun initAddListener() {
+        fabAdd.setOnClickListener {
+//            viewModel.addPost()
+        }
     }
 
     private fun getPosts() {
