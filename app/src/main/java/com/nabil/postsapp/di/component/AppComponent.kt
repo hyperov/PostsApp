@@ -1,0 +1,35 @@
+package com.nabil.postsapp.di.component
+
+import android.content.Context
+import com.nabil.postsapp.app.MyApp
+import com.nabil.postsapp.di.*
+import dagger.BindsInstance
+import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dagger.android.AndroidInjector
+import javax.inject.Singleton
+
+@Singleton
+@Component(
+    modules = [
+        DatabaseModule::class,
+        RepositoryModule::class,
+        NetworkModule::class,
+        ViewModelModule::class,
+        FragmentModule::class,
+        SchedulerModule::class,
+        AndroidInjectionModule::class
+    ]
+)
+interface AppComponent : AndroidInjector<MyApp> {
+
+    override fun inject(instance: MyApp)
+
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(context: Context): Builder
+
+        fun build(): AppComponent
+    }
+}

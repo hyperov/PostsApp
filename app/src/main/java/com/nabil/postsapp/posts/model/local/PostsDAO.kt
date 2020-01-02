@@ -14,10 +14,10 @@ interface PostsDAO {
     fun addPost(post: Post): Long
 
     @Update
-    fun editPost(post: Post): Long
+    fun editPost(post: Post): Int
 
     @Delete
-    fun deletePost(post: Post): Long
+    fun deletePost(post: Post): Int
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addAllPosts(postsList: List<Post>): List<Long>

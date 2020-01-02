@@ -1,5 +1,8 @@
 package com.nabil.postsapp.di
 
+import com.nabil.postsapp.annotations.Local
+import com.nabil.postsapp.annotations.Main
+import com.nabil.postsapp.annotations.Remote
 import com.nabil.postsapp.posts.model.Repository
 import com.nabil.postsapp.posts.model.local.PostsLocalRepo
 import com.nabil.postsapp.posts.model.main.PostsMainRepo
@@ -13,12 +16,15 @@ import io.reactivex.Observable
 abstract class RepositoryModule {
 
     @Binds
-    internal abstract fun getLocalRepo(localRepo: PostsLocalRepo): Repository<Long>
+    @Local
+    internal abstract fun getLocalRepo(localRepo: PostsLocalRepo): Repository<Int, Long>
 
     @Binds
-    internal abstract fun getRemoteRepo(remoteRepo: PostsRemoteRepo): Repository<Observable<Response>>
+    @Remote
+    internal abstract fun getRemoteRepo(remoteRepo: PostsRemoteRepo): Repository<Observable<Response>, Observable<Response>>
 
     @Binds
-    internal abstract fun getMainRepo(mainRepo: PostsMainRepo): Repository<Observable<Response>>
+    @Main
+    internal abstract fun getMainRepo(mainRepo: PostsMainRepo): Repository<Observable<Response>, Observable<Response>>
 
 }

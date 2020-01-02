@@ -9,7 +9,7 @@ import javax.inject.Inject
 class PostsRemoteRepo @Inject constructor(
     val postsNetwork: PostsNetwork
 ) :
-    Repository<Observable<Response>> {
+    Repository<Observable<Response>, Observable<Response>> {
 
     override fun getPosts() = postsNetwork.getPosts()
 

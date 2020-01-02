@@ -9,10 +9,11 @@ import com.nabil.postsapp.posts.model.pojo.Response
 import com.nabil.postsapp.scheduler.BaseSchedulerProvider
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
-class MainViewModel constructor(
-    private val repository: Repository<Observable<Response>>,
-    private val schedulerProvider: BaseSchedulerProvider
+class MainViewModel @Inject constructor(
+    val repository: Repository<Observable<Response>, Observable<Response>>,
+    val schedulerProvider: BaseSchedulerProvider
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()

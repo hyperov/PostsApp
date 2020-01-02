@@ -30,10 +30,6 @@ class PostsFragment : Fragment(), HasAndroidInjector {
 
     private lateinit var postsFragmentBinding: PostsFragmentBinding
 
-    companion object {
-        fun newInstance() = PostsFragment()
-    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,7 +44,9 @@ class PostsFragment : Fragment(), HasAndroidInjector {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
+
+        viewModel =
+            ViewModelProviders.of(activity!!, viewModelFactory).get(MainViewModel::class.java)
 
         observeLoadingAndError()
         observeData()
@@ -91,5 +89,11 @@ class PostsFragment : Fragment(), HasAndroidInjector {
         Snackbar.make(this, message, Snackbar.LENGTH_LONG)
             .show()
     }
+
+
+    companion object {
+        fun newInstance() = PostsFragment()
+    }
+
 
 }

@@ -5,9 +5,11 @@
     tools:context=".MainActivity">
 
     <data>
+
         <variable
             name="post"
             type="com.nabil.postsapp.posts.model.pojo.Post" />
+
 
     </data>
 

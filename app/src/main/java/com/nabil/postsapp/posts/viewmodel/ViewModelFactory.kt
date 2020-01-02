@@ -11,7 +11,8 @@ import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory @Inject constructor(
-    @Main val repository: Repository<Observable<Response>>, val schedulerProvider: BaseSchedulerProvider
+    @Main val repository: Repository<Observable<Response>, Observable<Response>>,
+    val schedulerProvider: BaseSchedulerProvider
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

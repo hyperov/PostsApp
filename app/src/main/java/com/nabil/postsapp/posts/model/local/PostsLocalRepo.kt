@@ -4,7 +4,7 @@ import com.nabil.postsapp.posts.model.Repository
 import com.nabil.postsapp.posts.model.pojo.Post
 import javax.inject.Inject
 
-class PostsLocalRepo @Inject constructor( val database: PostsDatabase) : Repository<Long> {
+class PostsLocalRepo @Inject constructor( val database: PostsDatabase) : Repository<Int,Long> {
 
     private val databaseDAO = database.postsDAO()
 

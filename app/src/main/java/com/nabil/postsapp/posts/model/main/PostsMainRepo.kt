@@ -8,8 +8,11 @@ import com.nabil.postsapp.posts.model.pojo.Response
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class PostsMainRepo @Inject constructor(@Local val localRepo: Repository<Long>, @Remote val remoteRepo: Repository<Observable<Response>>) :
-    Repository<Observable<Response>> {
+class PostsMainRepo @Inject constructor(
+    @Local val localRepo: Repository<Int, Long>,
+    @Remote val remoteRepo: Repository<Observable<Response>, Observable<Response>>
+) :
+    Repository<Observable<Response>, Observable<Response>> {
 
     var isNetworkConnected: Boolean = true
 
