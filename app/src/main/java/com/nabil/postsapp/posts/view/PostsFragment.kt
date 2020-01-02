@@ -4,16 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
 import com.nabil.postsapp.R
+import com.nabil.postsapp.databinding.PostsFragmentBinding
 import com.nabil.postsapp.posts.viewmodel.MainViewModel
 import com.nabil.postsapp.posts.viewmodel.ViewModelFactory
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import kotlinx.android.synthetic.main.posts_fragment.*
 import javax.inject.Inject
 
 class PostsFragment : Fragment(), HasAndroidInjector {
@@ -23,18 +26,24 @@ class PostsFragment : Fragment(), HasAndroidInjector {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    private lateinit var viewModel: MainViewModel
+
+    private lateinit var postsFragmentBinding: PostsFragmentBinding
 
     companion object {
         fun newInstance() = PostsFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.posts_fragment, container, false)
+
+        postsFragmentBinding =
+            DataBindingUtil.inflate(inflater, R.layout.posts_fragment, container, false)
+
+        return postsFragmentBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -52,16 +61,26 @@ class PostsFragment : Fragment(), HasAndroidInjector {
     }
 
     private fun observeData() {
-        viewModel.posts.observe(this, Observer { posts -> })
-        viewModel.addedPost.observe(this, Observer { post -> })
-        viewModel.editedPost.observe(this, Observer { post -> })
-        viewModel.deletedPost.observe(this, Observer { post -> })
+        viewModel.apply {
+            posts.observe(this@PostsFragment, Observer { posts -> })
+            addedPost.observe(this@PostsFragment, Observer { post -> })
+            editedPost.observe(this@PostsFragment, Observer { post -> })
+            deletedPost.observe(this@PostsFragment, Observer { post -> })
+        }
     }
 
     private fun observeLoadingAndError() {
-        viewModel.listLoading.observe(this, Observer { t: Boolean -> })
-        viewModel.elseLoading.observe(this, Observer { t: Boolean -> })
-        viewModel.error.observe(this, Observer { t: String -> })
+        viewModel.apply {
+
+            listLoading.observe(
+                this@PostsFragment,
+                Observer { isProgress: Boolean -> postsFragmentBinding.isProgress = isProgress })
+
+            elseLoading.observe(this@PostsFragment, Observer { t: Boolean -> })
+
+            error.observe(this@PostsFragment,
+                Observer { t: String -> rvPosts.showSnackBar(t) })
+        }
     }
 
     override fun androidInjector(): AndroidInjector<Any> {
