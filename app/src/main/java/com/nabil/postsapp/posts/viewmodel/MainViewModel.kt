@@ -17,6 +17,8 @@ class MainViewModel constructor(
 
     private val compositeDisposable = CompositeDisposable()
 
+    val selectedPost = MutableLiveData<Post>()
+
     private val mutableListLoading = MutableLiveData<Boolean>()
     val listLoading: LiveData<Boolean>
         get() = mutableListLoading
