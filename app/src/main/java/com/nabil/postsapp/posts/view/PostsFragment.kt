@@ -1,5 +1,6 @@
 package com.nabil.postsapp.posts.view
 
+import android.app.AlertDialog
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
@@ -9,11 +10,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.nabil.postsapp.R
 import com.nabil.postsapp.databinding.PostsFragmentBinding
@@ -22,7 +25,6 @@ import com.nabil.postsapp.posts.viewmodel.MainViewModel
 import com.nabil.postsapp.posts.viewmodel.ViewModelFactory
 import dagger.android.support.DaggerFragment
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.posts_fragment.*
 import javax.inject.Inject
 
@@ -82,8 +84,8 @@ class PostsFragment : DaggerFragment() {
                 viewModel.selectedPost.value = it
             },
             onEditPost = { post, editPosition ->
-                viewModel.editPost(post)
                 this.editPosition = editPosition
+                showDialog(post)
             },
             onDeletePost = { post, delPosition ->
                 viewModel.deletePost(post)
@@ -189,6 +191,37 @@ class PostsFragment : DaggerFragment() {
         }
 
         return result
+    }
+
+    private fun showDialog(post: Post) {
+        val builder: AlertDialog.Builder? = activity?.let {
+            AlertDialog.Builder(it)
+        }
+
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_edit_post, null, false)
+        val etTitle = view?.findViewById<EditText>(R.id.etTitle)
+        val etBody = view?.findViewById<EditText>(R.id.etBody)
+        val btOk = view?.findViewById<MaterialButton>(R.id.btOk)
+        val btCancel = view?.findViewById<MaterialButton>(R.id.btCancel)
+
+        val alertDialog = builder?.setView(view)?.create()
+
+
+        btCancel?.setOnClickListener { alertDialog?.dismiss() }
+        btOk?.setOnClickListener {
+            when {
+                etTitle?.text?.isBlank()!! -> etTitle.error = "please enter valid title"
+                etBody?.text?.isBlank()!! -> etBody.error = "please enter valid body"
+                else -> {
+                    post.title = etTitle.text.toString()
+                    post.body = etBody.text.toString()
+                    viewModel.editPost(post)
+                    alertDialog?.dismiss()
+                }
+            }
+        }
+
+        alertDialog!!.show()
     }
 
 

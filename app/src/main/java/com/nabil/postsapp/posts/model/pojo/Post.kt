@@ -9,6 +9,6 @@ data class Post(
     @PrimaryKey
     val id: Int,
     val userId: Int,
-    val title: String,
-    val body: String
+    var title: String,
+    var body: String
 )
