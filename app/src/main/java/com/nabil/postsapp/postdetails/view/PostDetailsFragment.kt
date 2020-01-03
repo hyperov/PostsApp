@@ -5,22 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.nabil.postsapp.R
 import com.nabil.postsapp.databinding.PostDetailsFragmentBinding
 import com.nabil.postsapp.posts.viewmodel.MainViewModel
 import com.nabil.postsapp.posts.viewmodel.ViewModelFactory
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class PostDetailsFragment : Fragment(), HasAndroidInjector {
-
-    @Inject
-    internal lateinit var androidInjector: DispatchingAndroidInjector<Any>
+class PostDetailsFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -40,8 +34,10 @@ class PostDetailsFragment : Fragment(), HasAndroidInjector {
         return postDetailsFragmentBinding.root
     }
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         viewModel =
             ViewModelProviders.of(activity!!, viewModelFactory).get(MainViewModel::class.java)
 
@@ -51,12 +47,9 @@ class PostDetailsFragment : Fragment(), HasAndroidInjector {
 
     }
 
-    override fun androidInjector(): AndroidInjector<Any> {
-        return androidInjector
-    }
-
     companion object {
         fun newInstance() = PostDetailsFragment()
     }
+
 
 }

@@ -2,10 +2,11 @@ package com.nabil.postsapp.posts.model
 
 import com.nabil.postsapp.posts.model.pojo.Post
 import io.reactivex.Observable
+import io.reactivex.Single
 
 interface Repository<T,U> {
 
-    fun getPosts(): Observable<List<Post>>
+    fun getPosts(internetAvailable: Boolean): Single<List<Post>>
 
     fun addPost(post: Post): U
 

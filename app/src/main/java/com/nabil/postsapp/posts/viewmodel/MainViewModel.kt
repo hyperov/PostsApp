@@ -50,19 +50,19 @@ class MainViewModel @Inject constructor(
         get() = mutableDeletedPost
 
 
-    fun getPosts() {
+    fun getPosts(internetAvailable: Boolean) {
 
         mutableListLoading.value = true
 
         compositeDisposable.add(
 
-            repository.getPosts()
-                .doAfterNext { mutableListLoading.value = false }
+            repository.getPosts(internetAvailable)
+                .doAfterSuccess { mutableListLoading.postValue(false) }
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(
                     { posts: List<Post> -> mutablePosts.value = posts },
-                    { t: Throwable? -> mutableError.value = t?.message }
+                    { t: Throwable? -> mutableError.value = "getposts: ${t?.message}" }
                 )
         )
     }
@@ -73,12 +73,12 @@ class MainViewModel @Inject constructor(
 
         compositeDisposable.add(
             repository.addPost(post)
-                .doAfterNext { mutableElseLoading.value = false }
+                .doAfterTerminate { mutableElseLoading.postValue(false) }
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(
                     { response: Response? -> mutableAddedPost.value = post },
-                    { t: Throwable? -> mutableError.value = t?.message }
+                    { t: Throwable? -> mutableError.value = "addposts: ${t?.message}" }
                 )
         )
     }
@@ -90,12 +90,12 @@ class MainViewModel @Inject constructor(
 
         compositeDisposable.add(
             repository.editPost(post)
-                .doAfterNext { mutableElseLoading.value = false }
+                .doAfterTerminate { mutableElseLoading.postValue(false) }
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(
                     { response: Response? -> mutableEditedPost.value = post },
-                    { t: Throwable? -> mutableError.value = t?.message }
+                    { t: Throwable? -> mutableError.value = "editposts: ${t?.message}" }
                 )
         )
     }
@@ -106,12 +106,12 @@ class MainViewModel @Inject constructor(
 
         compositeDisposable.add(
             repository.deletePost(post)
-                .doAfterNext { mutableElseLoading.value = false }
+                .doAfterTerminate { mutableElseLoading.postValue(false) }
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(
                     { response: Response? -> mutableDeletedPost.value = post },
-                    { t: Throwable? -> mutableError.value = t?.message }
+                    { t: Throwable? -> mutableError.value = "deleteposts: ${t?.message}" }
                 )
         )
     }

@@ -12,11 +12,21 @@
         tools:layout="@layout/posts_fragment">
         <action
             android:id="@+id/action_postsFragment_to_postDetailsFragment"
-            app:destination="@id/postDetailsFragment" />
+            app:destination="@id/postDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/postDetailsFragment"
         android:name="com.nabil.postsapp.postdetails.view.PostDetailsFragment"
-        android:label="post_details_fragment"
-        tools:layout="@layout/post_details_fragment" />
+        android:label="post_details_fragment" >
+        <action
+            android:id="@+id/action_postDetailsFragment_to_postsFragment"
+            app:destination="@id/postsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="false"
+            app:popUpTo="@+id/postDetailsFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
 </navigation>

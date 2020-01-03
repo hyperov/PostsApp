@@ -6,6 +6,7 @@ import com.nabil.postsapp.posts.model.Repository
 import com.nabil.postsapp.posts.model.pojo.Post
 import com.nabil.postsapp.posts.model.pojo.Response
 import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Inject
 
 class PostsMainRepo @Inject constructor(
@@ -14,13 +15,12 @@ class PostsMainRepo @Inject constructor(
 ) :
     Repository<Observable<Response>, Observable<Response>> {
 
-    var isNetworkConnected: Boolean = true
 
-    override fun getPosts(): Observable<List<Post>> {
-        return if (isNetworkConnected)
-            remoteRepo.getPosts().doOnNext { posts: List<Post> -> addAllPosts(posts) }
+    override fun getPosts(internetAvailable: Boolean): Single<List<Post>> {
+        return if (internetAvailable)
+            remoteRepo.getPosts(internetAvailable).doOnSuccess { posts: List<Post> -> addAllPosts(posts) }
         else
-            localRepo.getPosts()
+            localRepo.getPosts(internetAvailable)
     }
 
     override fun addPost(post: Post): Observable<Response> {

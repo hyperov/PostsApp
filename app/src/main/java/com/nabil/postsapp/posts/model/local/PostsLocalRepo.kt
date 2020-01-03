@@ -8,7 +8,7 @@ class PostsLocalRepo @Inject constructor( val database: PostsDatabase) : Reposit
 
     private val databaseDAO = database.postsDAO()
 
-    override fun getPosts() = databaseDAO.getPosts()
+    override fun getPosts(internetAvailable: Boolean) = databaseDAO.getPosts()
 
     override fun addPost(post: Post) = databaseDAO.addPost(post)
 

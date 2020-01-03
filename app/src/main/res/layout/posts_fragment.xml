@@ -22,7 +22,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPosts"
-            android:visibility="@{isProgress ? View.GONE :View.VISIBLE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:visibility="@{isProgress ? View.INVISIBLE :View.VISIBLE}"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

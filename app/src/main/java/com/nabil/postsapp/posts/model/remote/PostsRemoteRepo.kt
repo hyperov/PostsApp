@@ -11,7 +11,7 @@ class PostsRemoteRepo @Inject constructor(
 ) :
     Repository<Observable<Response>, Observable<Response>> {
 
-    override fun getPosts() = postsNetwork.getPosts()
+    override fun getPosts(internetAvailable: Boolean) = postsNetwork.getPosts()
 
     override fun addPost(post: Post) = postsNetwork.addPost(post)
 
