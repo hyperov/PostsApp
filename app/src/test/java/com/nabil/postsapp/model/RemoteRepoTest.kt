@@ -1,4 +1,4 @@
-package com.nabil.postsapp.remote
+package com.nabil.postsapp.model
 
 import com.nabil.postsapp.posts.model.Repository
 import com.nabil.postsapp.posts.model.pojo.Post

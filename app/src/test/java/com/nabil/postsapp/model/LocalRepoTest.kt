@@ -1,4 +1,4 @@
-package com.nabil.postsapp.local
+package com.nabil.postsapp.model
 
 import com.nabil.postsapp.posts.model.Repository
 import com.nabil.postsapp.posts.model.local.PostsDAO
