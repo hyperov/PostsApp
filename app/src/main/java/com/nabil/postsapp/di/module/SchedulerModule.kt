@@ -1,4 +1,4 @@
-package com.nabil.postsapp.di
+package com.nabil.postsapp.di.module
 
 import com.nabil.postsapp.scheduler.BaseSchedulerProvider
 import com.nabil.postsapp.scheduler.SchedulerProvider

@@ -1,4 +1,4 @@
-package com.nabil.postsapp.di
+package com.nabil.postsapp.di.module
 
 import android.content.Context
 import androidx.room.Room

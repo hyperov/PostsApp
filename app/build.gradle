@@ -91,9 +91,24 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
 
-    testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$junit_instrumentation_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+
+
+    testImplementation 'org.mockito:mockito-core:2.19.0'
+    //to mock final classes ex: data class
+    testImplementation 'org.mockito:mockito-inline:2.19.0'
+
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+
+    //to swaps the background executor used by the Architecture Components with a
+    // different one which executes each task synchronously
+    androidTestImplementation ('androidx.arch.core:core-testing:2.1.0'){
+        exclude group:'org.apache.maven.artifact', module: 'maven-artifact:2.2.1.jar'
+    }
+    testImplementation ('androidx.arch.core:core-testing:2.1.0'){
+        exclude group:'org.apache.maven.artifact', module: 'maven-artifact:2.2.1.jar'
+    }
 
     implementation 'com.google.android.material:material:1.1.0-alpha04'
 

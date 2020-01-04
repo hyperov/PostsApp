@@ -12,4 +12,6 @@ class MyApp : DaggerApplication() {
         return DaggerAppComponent.builder().application(this).build()
     }
 
+    fun getAppComponent() = applicationInjector()
+
 }

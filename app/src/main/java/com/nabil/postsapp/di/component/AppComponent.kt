@@ -2,10 +2,9 @@ package com.nabil.postsapp.di.component
 
 import android.content.Context
 import com.nabil.postsapp.app.MyApp
-import com.nabil.postsapp.di.*
+import com.nabil.postsapp.di.module.*
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton

@@ -1,4 +1,4 @@
-package com.nabil.postsapp.di
+package com.nabil.postsapp.di.module
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.nabil.postsapp.posts.model.remote.PostsNetwork

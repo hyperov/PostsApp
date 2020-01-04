@@ -1,4 +1,4 @@
-package com.nabil.postsapp.di
+package com.nabil.postsapp.di.module
 
 import com.nabil.postsapp.postdetails.view.PostDetailsFragment
 import com.nabil.postsapp.posts.view.PostsFragment

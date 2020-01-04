@@ -1,4 +1,4 @@
-package com.nabil.postsapp.di
+package com.nabil.postsapp.di.module
 
 import androidx.lifecycle.ViewModelProvider
 import com.nabil.postsapp.posts.viewmodel.ViewModelFactory
