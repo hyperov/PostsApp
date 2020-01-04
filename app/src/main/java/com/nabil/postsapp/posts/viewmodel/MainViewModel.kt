@@ -78,7 +78,7 @@ class MainViewModel @Inject constructor(
                 .observeOn(schedulerProvider.ui())
                 .subscribe(
                     { response: Response? -> mutableAddedPost.value = post },
-                    { t: Throwable? -> mutableError.value = "addposts: ${t?.message}" }
+                    { t: Throwable? -> mutableError.value = "addpost: ${t?.message}" }
                 )
         )
     }
@@ -95,7 +95,7 @@ class MainViewModel @Inject constructor(
                 .observeOn(schedulerProvider.ui())
                 .subscribe(
                     { response: Response? -> mutableEditedPost.value = post },
-                    { t: Throwable? -> mutableError.value = "editposts: ${t?.message}" }
+                    { t: Throwable? -> mutableError.value = "editpost: ${t?.message}" }
                 )
         )
     }
@@ -111,7 +111,7 @@ class MainViewModel @Inject constructor(
                 .observeOn(schedulerProvider.ui())
                 .subscribe(
                     { response: Response? -> mutableDeletedPost.value = post },
-                    { t: Throwable? -> mutableError.value = "deleteposts: ${t?.message}" }
+                    { t: Throwable? -> mutableError.value = "deletepost: ${t?.message}" }
                 )
         )
     }
