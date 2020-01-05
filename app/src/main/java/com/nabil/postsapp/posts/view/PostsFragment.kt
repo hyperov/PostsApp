@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.test.espresso.idling.CountingIdlingResource
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.nabil.postsapp.R
@@ -41,6 +42,7 @@ class PostsFragment : DaggerFragment() {
 
     private lateinit var postsFragmentBinding: PostsFragmentBinding
 
+    private val espressoTestIdlingResource = CountingIdlingResource("Network_Call")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -107,6 +109,7 @@ class PostsFragment : DaggerFragment() {
     }
 
     private fun getPosts() {
+        espressoTestIdlingResource.increment()
         viewModel.getPosts(isInternetAvailable(activity!!))
     }
 
@@ -114,7 +117,10 @@ class PostsFragment : DaggerFragment() {
         viewModel.apply {
             posts.observe(
                 this@PostsFragment,
-                Observer { posts -> postAdapter.swapData(posts as ArrayList<Post>) })
+                Observer { posts ->
+                    postAdapter.swapData(posts as ArrayList<Post>)
+                    espressoTestIdlingResource.decrement()
+                })
 
             addedPost.observe(
                 this@PostsFragment,
@@ -146,6 +152,7 @@ class PostsFragment : DaggerFragment() {
                 Observer { t: String ->
                     rvPosts.showSnackBar(t)
                     Log.e("error: ", t)
+                    espressoTestIdlingResource.decrement()
                 })
         }
     }
@@ -222,6 +229,10 @@ class PostsFragment : DaggerFragment() {
         }
 
         alertDialog!!.show()
+    }
+
+    fun getEspressoIdlingResource(): CountingIdlingResource {
+        return espressoTestIdlingResource
     }
 
 
