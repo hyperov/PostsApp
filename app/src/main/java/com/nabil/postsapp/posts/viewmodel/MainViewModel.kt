@@ -57,7 +57,7 @@ class MainViewModel @Inject constructor(
         compositeDisposable.add(
 
             repository.getPosts(internetAvailable)
-                .doAfterSuccess { mutableListLoading.postValue(false) }
+                .doAfterTerminate { mutableListLoading.postValue(false) }
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(

@@ -66,6 +66,9 @@ class PostsViewModelTest {
         `when`(postsRepository.getPosts(true))
             .thenReturn(Single.just(arrayListOf(post)))
 
+        `when`(postsRepository.getPosts(false))
+            .thenReturn(Single.just(arrayListOf(post)))
+
         `when`(postsRepository.addPost(post))
             .thenReturn(Observable.just(Response(post.id)))
 
