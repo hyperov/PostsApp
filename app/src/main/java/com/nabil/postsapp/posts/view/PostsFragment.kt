@@ -109,32 +109,34 @@ class PostsFragment : DaggerFragment() {
     }
 
     private fun getPosts() {
-        espressoTestIdlingResource.increment()
+        if (espressoTestIdlingResource.isIdleNow)
+            espressoTestIdlingResource.increment()
         viewModel.getPosts(isInternetAvailable(activity!!))
     }
 
     private fun observeData() {
         viewModel.apply {
             posts.observe(
-                this@PostsFragment,
+                viewLifecycleOwner,
                 Observer { posts ->
                     postAdapter.swapData(posts as ArrayList<Post>)
-                    espressoTestIdlingResource.decrement()
+                    if (espressoTestIdlingResource.isIdleNow.not())
+                        espressoTestIdlingResource.decrement()
                 })
 
             addedPost.observe(
-                this@PostsFragment,
+                viewLifecycleOwner,
                 Observer { post ->
                     Observable.fromCallable { postAdapter.addPost(post) }
                         .subscribe { rvPosts.smoothScrollToPosition(postAdapter.itemCount) }
                 })
 
             editedPost.observe(
-                this@PostsFragment,
+                viewLifecycleOwner,
                 Observer { post -> postAdapter.notifyItemChanged(editPosition) })
 
             deletedPost.observe(
-                this@PostsFragment,
+                viewLifecycleOwner,
                 Observer { post -> postAdapter.notifyItemRemoved(delPosition) })
         }
     }
@@ -143,16 +145,18 @@ class PostsFragment : DaggerFragment() {
         viewModel.apply {
 
             listLoading.observe(
-                this@PostsFragment,
+                viewLifecycleOwner,
                 Observer { isProgress: Boolean -> postsFragmentBinding.isProgress = isProgress })
 
-            elseLoading.observe(this@PostsFragment, Observer { t: Boolean -> })
+            elseLoading.observe(viewLifecycleOwner, Observer { t: Boolean -> })
 
-            error.observe(this@PostsFragment,
+            error.observe(viewLifecycleOwner,
                 Observer { t: String ->
                     rvPosts.showSnackBar(t)
                     Log.e("error: ", t)
-                    espressoTestIdlingResource.decrement()
+                    if (espressoTestIdlingResource.isIdleNow.not())
+                        espressoTestIdlingResource.decrement()
+
                 })
         }
     }
